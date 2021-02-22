@@ -112,8 +112,23 @@ class ArtInventory:
         finally:
             conn.close()
 
-    
-    
+    def _update_artpiece(self, artpiece):
+        if not artpiece.id:
+            raise StoreError('ID not in database')
+
+        update_read_sql = 'UPDATE inventory SET title = ?, price = ?, sold = ? WHERE rowid = ?'
+
+        with sqlite3.connect(db) as conn:
+            updated = conn.execute(update_read_sql, (artpiece.title, artpiece.price, artpiece.sold))
+            rows_modified = updated.rowcount
+        
+        conn.close()
+
+    def _delete_artpiece(self, artpiece):
+        if not artpiece.id:
+            raise StoreError('ID not in database')
+        
+
 class StoreError(Exception):
     pass
 
