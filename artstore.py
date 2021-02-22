@@ -1,3 +1,4 @@
+
 import sqlite3
 
 import os
@@ -89,7 +90,7 @@ class ArtInventory:
     class __ArtStore:
 
         def _init__(self):
-            create_table_sql = 'CREATE TABLE IF NOT EXISTS inventory (artid INTEGER PRIMARY KEY, title TEXT, price REAL, sold BOOLEAN, FOREIGN KEY(artistid) REFERENCES artistlist(artistid)'
+            create_table_sql = 'CREATE TABLE IF NOT EXISTS inventory (artid INTEGER PRIMARY KEY, title TEXT NOT NULL UNIQUE, price REAL NOT NULL, sold BOOLEAN NOT NULL, FOREIGN KEY(artistid) REFERENCES artistlist(artistid)'
 
             conn = sqlite3.connect(db)
 
@@ -127,7 +128,7 @@ class ArtInventory:
     def _delete_artpiece(self, artpiece):
         if not artpiece.id:
             raise StoreError('ID not in database')
-        
+
 
 class StoreError(Exception):
     pass
